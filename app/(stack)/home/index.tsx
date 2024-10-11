@@ -4,13 +4,14 @@ import { FlatList, Pressable, StatusBar, Text, View } from "react-native";
 import { styles } from "./styles";
 import { Add } from "@/components/Add";
 import { router } from "expo-router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DietContext, DietProps } from "@/context/DietContext";
 import Card from "@/components/Card";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home(){
 
-    const {dietList, setSelectedMeal} = useContext(DietContext)
+    const {dietList, setDietList, setSelectedMeal} = useContext(DietContext)
 
     function go(item: DietProps){
         router.navigate(`/mealInfo/${item.id}`) 
@@ -27,6 +28,23 @@ export default function Home(){
           const parte = insideDietArray.length;
           const total = dietList.length;
           const porcentagem = calcularPorcentagem(parte, total);
+
+          const getDietList = async () => {
+            try {
+                const dietListValue = await AsyncStorage.getItem('meal'); 
+                if (dietListValue !== null) {
+                    const parsedList = JSON.parse(dietListValue);
+                    setDietList(parsedList); 
+                    console.log('Lista de tarefas carregada:', parsedList);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar a lista de tarefas:', error);
+            }
+        };
+
+        // useEffect(()=>{
+        //     getDietList() // NAO TA FUNCIONANDO DANDO ERRO INSIDE DIET
+        // },[])
 
     return(
         <View style={styles.container}>
@@ -45,7 +63,7 @@ export default function Home(){
             />
            
 
-            <Text style={{marginLeft:20,marginTop:40,marginBottom:8}}>Refeições</Text>
+            <Text style={{marginLeft:20,marginTop:40,marginBottom:8}} onPress={() => getDietList()}>Refeições</Text>
             <Add
             buttonTitle="Nova Refeição"
             width={'90%'}

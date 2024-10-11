@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import { Add } from "@/components/Add";
 import { Modal } from "@/components/Modal";
 import { BlurView } from "expo-blur";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function MealInfo(){
@@ -23,13 +24,22 @@ export default function MealInfo(){
         const deletedMealList = dietList.filter((item) => item.id !== itemToDelete.id)
         console.log(deletedMealList)
         setDietList(deletedMealList)
+        storeDiet(deletedMealList)
     }
 
     function deleteMeal(){
-        handleDelete(selectedMeal)
         setDeleteModalOpen(false)
+        handleDelete(selectedMeal)
         router.navigate('/(stack)/home')
     }
+
+    const storeDiet = async (value: DietProps[]) => {
+        try {
+          const jsonValue = JSON.stringify(value);
+          await AsyncStorage.setItem('meal', jsonValue);
+        } catch (e) {
+        }
+      };
 
     return(
         <View style={styles.container}>

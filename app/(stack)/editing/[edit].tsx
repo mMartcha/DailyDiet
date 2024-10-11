@@ -8,6 +8,7 @@ import { StackHeader } from "@/components/StackHeader";
 import { useContext, useState } from "react";
 import { DietContext, DietProps } from "@/context/DietContext";
 import uuid from 'react-native-uuid';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Params = {
     foodName: string
@@ -31,10 +32,18 @@ export default function Edit(){
     function go(){
         const newDietList = dietList.map((item) => item.id === editMeal.id ? editMeal : item )
         setDietList(newDietList)
+        storeDiet(newDietList)
         console.log(editMeal)
         router.back()
-        
     }
+
+    const storeDiet = async (value: DietProps[]) => {
+        try {
+          const jsonValue = JSON.stringify(value);
+          await AsyncStorage.setItem('meal', jsonValue);
+        } catch (e) {
+        }
+      };
 
     return(
         <View style={styles.container}>

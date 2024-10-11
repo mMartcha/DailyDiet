@@ -1,13 +1,14 @@
 import { StackHeader } from "@/components/StackHeader";
 import { StatusBar, Text, TextInput, View } from "react-native";
 import { styles } from "./styles";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { Input } from "@/components/Input";
 import { PressableButton } from "@/components/Pressable";
 import { Add } from "@/components/Add";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { DietContext, DietProps } from "@/context/DietContext";
 import uuid from 'react-native-uuid';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Creation(){
 
@@ -20,11 +21,29 @@ export default function Creation(){
     
     function registerMeal(){
         setDietList(newDietList)
+        storeDiet(newDietList)
         router.navigate(`/feedback/${meal.insideDiet}`); 
-        // console.log(meal)
+        setMeal({
+            foodDate:'',
+            foodDescription:'',
+            foodName:'',
+            foodTime:'',
+            id:'',
+            insideDiet:'',
+        })
+       
     }
 
-    
+    const storeDiet = async (value: DietProps[]) => {
+        try {
+          const jsonValue = JSON.stringify(value);
+          await AsyncStorage.setItem('meal', jsonValue);
+        } catch (e) {
+        }
+      };
+          
+           
+      
 
     return(
         <View style={styles.container}>
