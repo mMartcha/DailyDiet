@@ -1,5 +1,5 @@
 import { StackHeader } from "@/components/StackHeader";
-import { StatusBar, Text, TextInput, View } from "react-native";
+import { Alert, StatusBar, Text, TextInput, View } from "react-native";
 import { styles } from "./styles";
 import { router, useFocusEffect } from "expo-router";
 import { Input } from "@/components/Input";
@@ -9,28 +9,48 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { DietContext, DietProps } from "@/context/DietContext";
 import uuid from 'react-native-uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Modal } from "@/components/Modal";
+import { BlurView } from "expo-blur";
 
 export default function Creation(){
 
     const {dietList,setDietList} = useContext(DietContext)
 
     
-    const [meal, setMeal] = useState({} as DietProps)
+    const [meal, setMeal] = useState({foodName:''} as DietProps)
+
+    const [completeAll, setCompleteAll] = useState(false)
+
+    const newDietList = [...dietList, meal ]   
+
+    useFocusEffect(
+        useCallback(() => {
+            return () => {
+                setMeal({
+                    foodDate: '',
+                    foodDescription: '',
+                    foodName: '',
+                    foodTime: '',
+                    id: '',
+                    insideDiet: ''
+                })                
+            }
+        }, [])
+    )
     
-    const newDietList = [...dietList, meal ]      
     
     function registerMeal(){
-        setDietList(newDietList)
-        storeDiet(newDietList)
-        router.navigate(`/feedback/${meal.insideDiet}`); 
-        setMeal({
-            foodDate:'',
-            foodDescription:'',
-            foodName:'',
-            foodTime:'',
-            id:'',
-            insideDiet:'',
-        })
+        if((meal.foodName === '') || (meal.foodDescription === '') || (meal.foodDate === '') || (meal.foodTime === '') || (meal.id === '')){
+            setCompleteAll(true)
+            console.log('aquinaobbzinho')
+        }else{
+
+            setDietList(newDietList)
+            storeDiet(newDietList)
+            router.navigate(`/feedback/${meal.insideDiet}`); 
+     
+        }
+        console.log(meal)
        
     }
 
@@ -42,9 +62,6 @@ export default function Creation(){
         }
       };
           
-           
-      
-
     return(
         <View style={styles.container}>
 
@@ -63,6 +80,8 @@ export default function Creation(){
                     height={100}
                     value={meal.foodDescription}
                     onChangeText={(text) => setMeal({...meal, foodDescription: text})}
+                    textAlignVertical="top"
+                    multiline={true}
                 />
 
                 <View style={{flexDirection:'row', justifyContent:'center'}}>
@@ -82,7 +101,7 @@ export default function Creation(){
                         />
                 </View>
 
-                    <Text style={{marginLeft:20,marginTop:20,marginBottom:10}}>Está dentro da dieta?</Text>
+                    <Text style={{marginLeft:20,marginTop:20,marginBottom:10, fontFamily:'NunitoSans_700Bold'}}>Está dentro da dieta?</Text>
                 <View style={{flexDirection:'row',gap:12, justifyContent:'center',marginHorizontal:20}}>
                     <PressableButton
                         title="Sim"
@@ -113,6 +132,35 @@ export default function Creation(){
                 </View>
 
             </View>
+
+            {/* {completeAll && (
+                    <BlurView
+                        style={styles.absolute}
+                        intensity={50} 
+                        tint="dark" 
+                    />
+                )} */}
+
+            <Modal isOpen={completeAll}>
+            <View style={{backgroundColor:'#fff', width:"90%", height:160, borderRadius:8, alignItems:'center', paddingBottom: 8, borderColor:'black', borderWidth:1  }}>
+                    <View style={{ flex:1, justifyContent:'center', marginHorizontal:60, marginTop:20}}>
+                        <Text style={{fontSize:16, fontWeight:'500', textAlign:'center', }}>Complete todos os campos!</Text>
+                    </View>
+
+                    <View style={{flexDirection:'row', flex:1, gap:12}} >
+                        <Add
+                            buttonTitle="Voltar"    
+                            background={'#fff'}
+                            border="black"
+                            borderWidth={1}
+                            color="black"           
+                            width={140}         
+                            onPress={() => setCompleteAll(false)}
+                        />
+                        
+                    </View>
+                </View>
+            </Modal>
         </View>
     )
 }

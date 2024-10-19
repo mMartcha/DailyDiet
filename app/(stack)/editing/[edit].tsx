@@ -9,6 +9,7 @@ import { useContext, useState } from "react";
 import { DietContext, DietProps } from "@/context/DietContext";
 import uuid from 'react-native-uuid';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NunitoSans_700Bold } from "@expo-google-fonts/nunito-sans";
 
 type Params = {
     foodName: string
@@ -59,7 +60,7 @@ export default function Edit(){
                 <Input
                     title="Nome"
                     height={46}
-                    value={meal.foodName}
+                    // value={meal.foodName}
                     placeholder={meal.foodName} 
                     onChangeText={(text) => setEditMeal({...editMeal, foodName: text})}
                     />
@@ -67,10 +68,12 @@ export default function Edit(){
                 <Input
                     title="Descrição"
                     height={100}
-                    value={meal.foodDescription}
+                    // value={meal.foodDescription}
                     onChangeText={(text) => setEditMeal({...editMeal, foodDescription: text})}
                     placeholder={meal.foodDescription}
                     placeholderTextColor={'black'}
+                    multiline={true}
+                    textAlignVertical="top"
                 />
 
                 <View style={{flexDirection:'row', justifyContent:'center'}}>
@@ -78,7 +81,7 @@ export default function Edit(){
                         title="Data"
                         height={46}
                         width={158}
-                        value={meal.foodDate}
+                        // value={meal.foodDate}
                         onChangeText={(text) => setEditMeal({...editMeal, foodDate: text})}
                         placeholder={meal.foodDate}
 
@@ -87,14 +90,14 @@ export default function Edit(){
                         title="Hora"
                         height={46}
                         width={158}
-                        value={meal.foodTime}
+                        // value={meal.foodTime}
                         onChangeText={(text) => setEditMeal({...editMeal, foodTime: text})}
                         placeholder={meal.foodTime}
 
                         />
                 </View>
 
-                    <Text style={{marginLeft:20,marginTop:20,marginBottom:10}}>Está dentro da dieta?</Text>
+                    <Text style={{marginLeft:20,marginTop:20,marginBottom:10, fontFamily:'NunitoSans_700Bold'}}>Está dentro da dieta?</Text>
                 <View style={{flexDirection:'row',gap:12, justifyContent:'center',marginHorizontal:20}}>
                     <PressableButton
                         title="Sim"

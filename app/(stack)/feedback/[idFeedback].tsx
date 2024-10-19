@@ -17,9 +17,20 @@ export default function Feedback(){
         <View style={{flex:1, justifyContent:'center', alignItems:'center', backgroundColor:'#FAFAFA', gap:24 }}>
             <View style={{gap:12,alignItems:'center'}}>
                 {/* {idFeedback} */}
-                <Text style={[styles.titleText,{color: idFeedback === 'true' ? "#639339" : '#BF3B44'}]}>{idFeedback === 'true' ? "Continue Assim!" : "Que pena!"} </Text>
-                <Text style={{fontSize:16,textAlign:'center'}}>{idFeedback === 'true' ? "Você continua dentro da dieta. Muito bem!" : "Você saiu da dieta dessa vez, mas continue se esforçando e não desista!"}</Text>
-            </View>
+                <Text style={[styles.titleText,{color: idFeedback === 'true' ? "#639339" : '#BF3B44'}]}>{idFeedback === 'true' ? "Continue assim!" : "Que pena!"} </Text>
+                <Text style={{ fontSize: 16, textAlign: 'center' }}>
+                {idFeedback === 'true' ? (
+                    <>
+                    Você continua <Text style={{ fontWeight: 'bold' }}>dentro da dieta</Text>. Muito bem!
+                    </>
+                ) : (
+                    <>
+                    Você <Text style={{ fontWeight: 'bold' }}>saiu da dieta</Text> dessa vez, mas continue se esforçando e não desista!
+                    </>
+                )}
+                </Text>            
+
+                </View>
 
             <View style={{gap:30}}>
                 <Image

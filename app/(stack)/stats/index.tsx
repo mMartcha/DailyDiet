@@ -4,6 +4,7 @@ import { NormalHighlight } from "@/components/normalHighlight";
 import { Highlight } from "@/components/Highlight";
 import { useContext } from "react";
 import { DietContext } from "@/context/DietContext";
+import { NunitoSans_700Bold } from "@expo-google-fonts/nunito-sans";
 
 export default function Stats(){
 
@@ -19,8 +20,11 @@ export default function Stats(){
           
           const parte = insideDietArray.length;
           const total = dietList.length;
-          const porcentagem = calcularPorcentagem(parte, total);
+          let porcentagem = calcularPorcentagem(parte, total);
           
+          if(Number.isNaN(porcentagem)){
+            porcentagem = 0
+            }
 
     return(
 
@@ -29,7 +33,7 @@ export default function Stats(){
             <StatusBar backgroundColor={porcentagem > 50 ? "#E5F0DB" : "#F4E6E7"} barStyle="dark-content" />
 
                 <NormalHighlight
-                title={porcentagem.toFixed(0) + '%'} 
+                title={porcentagem.toFixed(2) + '%'} 
                 subTitle="das refeições dentro da dieta"
                 isActive
                 iconColor={porcentagem > 50 ? "#639339" : "#BF3B44"}
@@ -38,7 +42,7 @@ export default function Stats(){
                 
 
             <View style={styles.subPagina}>
-                <Text style={{alignSelf:'center',marginTop:20}}>Estatísticas gerais</Text>
+                <Text style={{alignSelf:'center',marginTop:20, fontFamily:'NunitoSans_700Bold'}}>Estatísticas gerais</Text>
                 <NormalHighlight
                 background={'#EFF0F0'}
                 width={'90%'}

@@ -17,7 +17,7 @@ export function StackHeader({backFunction, title, background}:Props){
             onPress={backFunction}>
                 <AntDesign name="arrowleft" size={24} color="black" />
             </Pressable>
-            <Text style={{fontSize:16, fontWeight:'bold', position:'absolute'}} >{title}</Text>
+            <Text style={{fontSize:18,fontFamily:'NunitoSans_700Bold', position:'absolute'}} >{title}</Text>
         </View>
     )
 }  

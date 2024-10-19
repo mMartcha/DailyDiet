@@ -2,8 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     container:{
-        backgroundColor:'#FAFAFA',
-        flex:1,
+       
         
     },
     lowerPage:{
@@ -13,6 +12,7 @@ export const styles = StyleSheet.create({
         gap:20,
         paddingHorizontal:20,
         paddingTop:20,
+        
         
     },
     bolinha:{

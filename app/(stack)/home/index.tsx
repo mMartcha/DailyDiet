@@ -3,11 +3,12 @@ import { Highlight } from "@/components/Highlight";
 import { FlatList, Pressable, StatusBar, Text, View } from "react-native";
 import { styles } from "./styles";
 import { Add } from "@/components/Add";
-import { router } from "expo-router";
-import { useContext, useEffect } from "react";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useContext, useEffect } from "react";
 import { DietContext, DietProps } from "@/context/DietContext";
 import Card from "@/components/Card";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function Home(){
 
@@ -27,11 +28,13 @@ export default function Home(){
           
           const parte = insideDietArray.length;
           const total = dietList.length;
-          const porcentagem = calcularPorcentagem(parte, total);
+          let porcentagem = calcularPorcentagem(parte, total);
 
           const getDietList = async () => {
             try {
                 const dietListValue = await AsyncStorage.getItem('meal'); 
+
+                console.log(dietListValue)
                 if (dietListValue !== null) {
                     const parsedList = JSON.parse(dietListValue);
                     setDietList(parsedList); 
@@ -42,9 +45,13 @@ export default function Home(){
             }
         };
 
-        // useEffect(()=>{
-        //     getDietList() // NAO TA FUNCIONANDO DANDO ERRO INSIDE DIET
-        // },[])
+        useFocusEffect(useCallback(()=>{
+            getDietList()
+        },[]))
+    
+        if(Number.isNaN(porcentagem)){
+            porcentagem = 0
+        }
 
     return(
         <View style={styles.container}>
@@ -54,7 +61,7 @@ export default function Home(){
             <Header/>
             
             <Highlight 
-            porcentage={porcentagem.toFixed(0)}
+            porcentage={porcentagem.toFixed(2)}
             subTitle="das refeições dentro da dieta"
             background={porcentagem > 50 ? "#E5F0DB" : "#F4E6E7"}
             width={'90%'}
@@ -63,13 +70,17 @@ export default function Home(){
             />
            
 
-            <Text style={{marginLeft:20,marginTop:40,marginBottom:8}} onPress={() => getDietList()}>Refeições</Text>
+            <Text style={{marginLeft:20,marginTop:40,marginBottom:8, fontFamily:'NunitoSans_400Regular', fontSize:16}} onPress={() => getDietList()}>Refeições</Text>
+
             <Add
             buttonTitle="Nova Refeição"
             width={'90%'}
             iconName="plus"
+            iconLibrary={MaterialCommunityIcons}
+            iconSize={24}
             onPress={() => router.navigate("/(stack)/creation")}
             />
+
             <View style={styles.flatListView}>
                 {/* <Card/> */}
                 <FlatList

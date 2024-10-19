@@ -1,4 +1,6 @@
+import { NunitoSans_200ExtraLight, NunitoSans_400Regular, NunitoSans_900Black } from "@expo-google-fonts/nunito-sans";
 import { StyleSheet } from "react-native";
+import Fonts from "../FontCode";
 
 export const styles = StyleSheet.create({
     container:{
@@ -12,6 +14,6 @@ export const styles = StyleSheet.create({
     },
     text:{
         textAlign: 'center',
-        fontWeight: 'bold' 
+        fontFamily:'NunitoSans_700Bold' 
     }
 })

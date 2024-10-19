@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         
     },
     lowerPage:{
-        backgroundColor:'#fafafa',
+        backgroundColor:'#fff',
         flex:1,
         // bottom:10,
         borderTopLeftRadius:20,

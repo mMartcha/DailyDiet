@@ -16,9 +16,9 @@ export default function Card({item, onPress}:Props){
     return(
         <Pressable onPress={onPress} style={styles.container}>
             <View style={{flexDirection:'row',alignItems:'center',flex:1,gap:10,paddingLeft:12}}>
-                <Text style={{fontWeight:'bold'}}>{item.foodTime}</Text>
+                <Text style={{fontWeight:'bold', fontFamily:'NunitoSans_400Regular'}}>{item.foodTime}</Text>
                 <View style={{height:20,width:1,backgroundColor:'black'}}/>
-                <Text style={{fontSize:16}}>{item.foodName}</Text>
+                <Text style={{fontSize:16, fontFamily:'NunitoSans_400Regular'}}>{item.foodName}</Text>
             </View>
 
                 <View style={{paddingRight:12}}>

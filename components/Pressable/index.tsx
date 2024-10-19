@@ -14,7 +14,7 @@ export function PressableButton({background,title,ball, ballcolor, onPress, bord
         <Pressable onPress={onPress} style={[styles.container,{backgroundColor:background, borderColor: border}]}>
 
             {ball && <View style={{height:8,width:8,borderRadius:16,backgroundColor:ballcolor}}/>}
-            <Text>{title}</Text>
+            <Text style={{fontFamily:'NunitoSans_700Bold'}}>{title}</Text>
 
         </Pressable>
     )
